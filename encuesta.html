@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encuesta de Jardinería - VerdeRaíz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f9f0;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      margin-top: 40px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .hidden {
+      display: none;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: bold;
+    }
+    select, textarea, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .checkboxes label {
+      font-weight: normal;
+      margin: 5px 0;
+    }
+    button {
+      background-color: #2e7d32;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="caratula">
+  <h1>🌿 VerdeRaíz Mtto.</h1>
+  <p style="text-align: center;">Te ayudamos a mantener tu jardín hermoso y saludable.</p>
+  <button onclick="mostrarEncuesta()">Comenzar encuesta</button>
+</div>
+
+<div class="container hidden" id="encuesta">
+  <h2>Encuesta para Cotización</h2>
+  
+  <label for="tamano">Tamaño del jardín:</label>
+  <select id="tamano">
+    <option value="">Selecciona una opción</option>
+    <option value="Chico (menos de 50 m²)">Chico (menos de 50 m²)</option>
+    <option value="Mediano (50 - 100 m²)">Mediano (50 - 100 m²)</option>
+    <option value="Grande (más de 100 m²)">Grande (más de 100 m²)</option>
+  </select>
+
+  <label for="frecuencia">Frecuencia del mantenimiento:</label>
+  <select id="frecuencia">
+    <option value="">Selecciona una opción</option>
+    <option value="Una vez a la semana">Una vez a la semana</option>
+    <option value="Cada dos semanas">Cada dos semanas</option>
+    <option value="Mensual">Mensual</option>
+    <option value="Solo una vez">Solo una vez</option>
+  </select>
+
+  <label>Servicios requeridos:</label>
+  <div class="checkboxes">
+    <label><input type="checkbox" value="Corte de césped"> Corte de césped</label>
+    <label><input type="checkbox" value="Limpieza de jardín"> Limpieza de jardín</label>
+    <label><input type="checkbox" value="Poda de arbustos y plantas"> Poda de arbustos y plantas</label>
+    <label><input type="checkbox" value="Fertilización"> Fertilización</label>
+    <label><input type="checkbox" value="Control básico de plagas"> Control básico de plagas</label>
+  </div>
+
+  <label for="comentarios">¿Algo más que debamos saber?</label>
+  <textarea id="comentarios" rows="4" placeholder="Especifica detalles adicionales si los hay..."></textarea>
+
+  <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+</div>
+
+<script>
+  function mostrarEncuesta() {
+    document.getElementById("caratula").classList.add("hidden");
+    document.getElementById("encuesta").classList.remove("hidden");
+  }
+
+  function enviarWhatsApp() {
+    const tamano = document.getElementById("tamano").value;
+    const frecuencia = document.getElementById("frecuencia").value;
+    const comentarios = document.getElementById("comentarios").value.trim();
+    const servicios = Array.from(document.querySelectorAll('.checkboxes input:checked'))
+      .map(cb => cb.value)
+      .join(", ");
+
+    if (!tamano || !frecuencia || !servicios) {
+      alert("Por favor, completa los campos obligatorios.");
+      return;
+    }
+
+    let mensaje = "Hola, estoy interesado en un servicio de jardinería:%0A";
+    mensaje += `• Tamaño del jardín: ${tamano}%0A`;
+    mensaje += `• Frecuencia: ${frecuencia}%0A`;
+    mensaje += `• Servicios: ${servicios}%0A`;
+    if (comentarios) mensaje += `• Comentarios: ${comentarios}%0A`;
+
+    const whatsappURL = `https://wa.me/5217203828732?text=${mensaje}`;
+    window.open(whatsappURL, "_blank");
+  }
+</script>
+
+</body>
+</html>
